@@ -8,45 +8,45 @@ contract Evidence{
     uint FILEHASH_NOT_EXIST = 3;
 
     struct File {
-        bytes hash;
+        string hash;
         uint createTime;
         address owner;
     }
     
     // owner => (hash => File)
-    mapping(address => mapping(bytes => File) ) evidenceMap;
+    mapping(address => mapping(string => File) ) evidenceMap;
 
     address[] userList;
     
     constructor () public {}
     
-    function save (bytes memory fileHash) public returns (uint code,uint createTime){
-        mapping(bytes => File) storage fileMap = evidenceMap[msg.sender];
+    function save (string memory fileHashHex) public returns (uint code,uint createTime){
+        mapping(string => File) storage fileMap = evidenceMap[msg.sender];
         
-        File storage f = fileMap[fileHash];
+        File storage f = fileMap[fileHashHex];
         if (f.createTime == 0){
             userList.push(msg.sender);
         }
         
-        f.hash = fileHash;
+        f.hash = fileHashHex;
         f.createTime = now;
         f.owner = msg.sender;
         
-        evidenceMap[msg.sender][fileHash] = f;
+        evidenceMap[msg.sender][fileHashHex] = f;
         
         return (SUCESS,f.createTime);
     }
     
-    function checkHash (bytes memory fileHash) public view returns(uint code) {
-        if (evidenceMap[msg.sender][fileHash].createTime == 0){
+    function checkHash (string memory fileHashHex) public view returns(uint code) {
+        if (evidenceMap[msg.sender][fileHashHex].createTime == 0){
             return (FILEHASH_NOT_EXIST);
         }
         
         return (FILE_EXIST);
     }
     
-    function getEvidence (bytes memory fileHash) public view returns (uint code,uint createTime){
-        File storage f = evidenceMap[msg.sender][fileHash];
+    function getEvidence (string memory fileHashHex) public view returns (uint code,uint createTime){
+        File storage f = evidenceMap[msg.sender][fileHashHex];
         if (f.createTime == 0) {
             return (FILEHASH_NOT_EXIST,0);
         }
