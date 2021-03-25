@@ -23,7 +23,7 @@ var (
 	ce *contract.EVMContract
 
 	mnemonic           = "聚 悬 带 肌 曹 术 时 别 浓 才 疾 保"
-	contractAccount    = "XC99999999999998@xuper"
+	contractAccount    = "XC9999999999999998@xuper"
 	saveEvidenceMethod = "save"
 	checkHashMethod    = "checkHash"
 	getEvidenceMethod  = "getEvidence"
@@ -42,7 +42,7 @@ func main() {
 		panic(err)
 	}
 
-	// 创建合约账户：XC1234567890123456@xuper，如果已经创建好了不会重复创建。
+	// 创建合约账户：XC9999999999999998@xuper，如果已经创建好了不会重复创建。
 	createContractAccount(acc)
 	time.Sleep(time.Second * 5)
 
@@ -83,7 +83,7 @@ func createContractAccount(acc *account.Account) {
 	ca := contractaccount.InitContractAccount(acc, node, bcname)
 
 	// 发送创建合约账户交易
-	// contractAccount = "XC1234567890123456@xuper"
+	// contractAccount = "XC9999999999999998@xuper"
 	txid, err := ca.CreateContractAccount(contractAccount)
 	if err != nil {
 		log.Println("合约账户已经创建")
